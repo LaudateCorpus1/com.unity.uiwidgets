@@ -176,8 +176,7 @@ namespace Unity.UIWidgets.engine {
         {
             if (UIWidgetsGlobalConfiguration.EnableIncrementalGC)
             {
-                GarbageCollector.GCMode = GarbageCollector.Mode.Disabled;
-                Application.lowMemory += GC.Collect;
+                GarbageCollector.GCMode = GarbageCollector.Mode.Enabled;
             }
         }
 
@@ -239,6 +238,7 @@ namespace Unity.UIWidgets.engine {
             TryEnableOnDemandGC();
 #endif
 
+            Application.lowMemory += GC.Collect;
             base.OnEnable();
             
             D.assert(_wrapper == null);
