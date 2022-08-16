@@ -49,17 +49,16 @@ namespace Unity.UIWidgets.painting {
         }
 
         public static AlignmentGeometry lerp(AlignmentGeometry a, AlignmentGeometry b, float t) {
-            D.assert(t != null);
             if (a == null && b == null)
                 return null;
             if (a == null)
                 return b * t;
             if (b == null)
                 return a * (1.0f - t);
-            if (a is Alignment && b is Alignment)
-                return Alignment.lerp(a, b, t);
-            if (a is AlignmentDirectional && b is AlignmentDirectional)
-                return AlignmentDirectional.lerp(a, b, t);
+            if (a is Alignment _a && b is Alignment _b)
+                return Alignment.lerpAlignment(_a, _b, t);
+            if (a is AlignmentDirectional _ad && b is AlignmentDirectional _bd)
+                return AlignmentDirectional.lerpAlignmentDirectional(_ad, _bd, t);
             return new _MixedAlignment(
                 MathUtils.lerpNullableFloat(a._x, b._x, t),
                 MathUtils.lerpNullableFloat(a._start, b._start, t),
@@ -191,7 +190,7 @@ namespace Unity.UIWidgets.painting {
             );
         }
 
-        public static Alignment lerp(Alignment a, Alignment b, float t) {
+        public static Alignment lerpAlignment(Alignment a, Alignment b, float t) {
             if (a == null && b == null) {
                 return null;
             }
@@ -390,8 +389,7 @@ namespace Unity.UIWidgets.painting {
             return new AlignmentDirectional(start % other, y % other);
         }
 
-        static AlignmentDirectional lerp(AlignmentDirectional a, AlignmentDirectional b, float t) {
-            D.assert(t != null);
+        public static AlignmentDirectional lerpAlignmentDirectional(AlignmentDirectional a, AlignmentDirectional b, float t) {
             if (a == null && b == null)
                 return null;
             if (a == null)
@@ -513,7 +511,6 @@ namespace Unity.UIWidgets.painting {
 
     public class TextAlignVertical {
         public TextAlignVertical(float y) {
-            D.assert(y != null);
             D.assert(y >= -1.0 && y <= 1.0);
             this.y = y;
         }

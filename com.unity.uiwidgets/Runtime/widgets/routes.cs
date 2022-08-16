@@ -47,12 +47,12 @@ namespace Unity.UIWidgets.widgets {
     }
 
     public abstract class OverlayRoute<T> : OverlayRoute {
-        public readonly List<OverlayEntry> _overlayEntries = new List<OverlayEntry>();
         public OverlayRoute(
             RouteSettings settings = null
         ) : base(settings : settings) {
         }
-        protected internal new bool didPop(T result) {
+        
+        protected internal override bool didPop(object result) {
             var returnValue = base.didPop(result);
             D.assert(returnValue);
             if (finishedWhenPopped) {
@@ -855,27 +855,11 @@ namespace Unity.UIWidgets.widgets {
             _filter = filter;
         }
         
-        public static ModalRoute<T> of<T>(BuildContext context) {
+        public static ModalRoute<S> of<S>(BuildContext context) {
             _ModalScopeStatus widget = context.dependOnInheritedWidgetOfExactType<_ModalScopeStatus>();
-            return widget?.route as ModalRoute<T>;
+            return widget?.route as ModalRoute<S>;
         }
-        public new GlobalKey<_ModalScopeState<T>> _scopeKey = new LabeledGlobalKey<_ModalScopeState<T>>();
 
-        public override Future<RoutePopDisposition> willPop() {
-            //async
-            _ModalScopeState<T> scope = _scopeKey.currentState as _ModalScopeState<T> ;
-            D.assert(scope != null);
-
-            bool result = false;
-            foreach (WillPopCallback callback in _willPopCallbacks) {
-                callback.Invoke().then(v => result = !(bool)v);
-                if (result) {
-                    return Future.value(RoutePopDisposition.doNotPop).to<RoutePopDisposition>();
-                }
-            }
-            return base.willPop();
-            
-        }
         public override Widget _buildModalScope(BuildContext context) {
             return _modalScopeCache = _modalScopeCache ?? new _ModalScope<T>(key: _scopeKey, route: this);
         }
@@ -989,7 +973,6 @@ namespace Unity.UIWidgets.widgets {
             RouteTransitionsBuilder transitionBuilder = null,
             RouteSettings settings = null
             ) : base(settings: settings) {
-            D.assert(barrierDismissible != null);
             _pageBuilder = pageBuilder;
             _barrierLabel = barrierLabel;
             _barrierDismissible = barrierDismissible;

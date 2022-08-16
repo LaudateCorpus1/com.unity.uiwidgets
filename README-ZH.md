@@ -7,7 +7,9 @@ UIWidgets是Unity编辑器的一个插件包，可帮助开发人员通过Unity�
 
 UIWidgets主要来自[Flutter](https://github.com/flutter/flutter)。但UIWidgets通过使用强大的Unity引擎为开发人员提供了许多新功能，显著地改进他们开发的应用性能和工作流程。
 
-UIWidgets 2.0是UIWidgets的最新版本，它主要着力于UI绘制相关的整体性能优化。经测试，UIWidgets 2.0在iPhone 6等部分机型上的帧率相对1.0版本可以取得10%左右的提升。如果因为各种原因您还需要使用UIWidgets 1.0，请在Releases中下载对应的包或者使用uiwidgets_1.0分支。
+**UIWidgets 2.0**是UIWidgets的最新版本，它针对**中国版Unity**开发并主要着力于UI绘制相关的整体性能优化。经测试，UIWidgets 2.0在iPhone 6等部分机型上的帧率相对1.0版本可以取得10%左右的提升。
+
+如果因为各种原因您还需要使用UIWidgets 1.0，请在Releases中下载对应的包或者使用uiwidgets_1.0分支。
 
 #### 效率
 通过使用最新的Unity渲染SDK，UIWidgets应用可以非常快速地运行并且大多数时间保持大于60fps的速度。
@@ -41,16 +43,17 @@ UIWidgets 2.0是UIWidgets的最新版本，它主要着力于UI绘制相关的�
 ### 基于UIWidgets的项目
 
 #### Unity Connect App
-Unity Connect App是使用UIWidgets开发的一个移动App产品，您随时可以在Android (https://unity.cn/connectApp/download)
+Unity Connect App是使用**UIWidgets 2.0**开发的一个移动App产品，您随时可以在Android (https://unity.cn/connectApp/download)
 以及iOS (Searching for "Unity Connect" in App Store)端下载到它最新的版本. 本项目的所有代码均开源@https://github.com/UnityTech/ConnectAppCN.
 
 #### Unity中文官方文档
-Unity的线上中文官方文档由UIWidgets开发，您可以点击以下网址 https://connect.unity.com/doc 来访问它的全部内容。该项目目前已开源，所有代码可以在
+Unity的线上中文官方文档由UIWidgets 1.0开发，您可以点击以下网址 https://connect.unity.com/doc 来访问它的全部内容。该项目目前已开源，所有代码可以在
 https://github.com/UnityTech/DocCN 查看。
 
 ## 使用要求
 
 #### Unity
+:warning: **注意：UIWidgets 2.0仅仅适用于中国版Unity**
 
 UIWidgets的各个版本所需的Unity版本如下表所示。您可以从[https://unity.cn/releases](https://unity.cn/releases)下载最新的Unity。
 
@@ -58,27 +61,32 @@ UIWidgets的各个版本所需的Unity版本如下表所示。您可以从[https
 | -----------------------------------------------| ------------------------- | ------------------------- |
 | 1.5.4 及以下     | 2019.4.10f1 及以上  | N\A |
 | 2.0.1   | 2019.4.26f1c1  | N\A |
-| 2.0.2 及以上   | 2019.4.26f1c1 及以上 | N\A |
+| 2.0.3   | 2019.4.26f1c1 ~ 2019.4.29f1c1 | N\A |
+| 2.0.4及以上 | 2019.4.26f1c1 ~ 2019.4.29f1c1 | 2020.3.24f1c2 及以上 |
 
 #### UIWidgets包
 
 访问我们的Github存储库 [https://github.com/Unity-Technologies/com.unity.uiwidgets](https://github.com/Unity-Technologies/com.unity.uiwidgets)下载最新的UIWidgets包。
 
-将下载的包文件夹移动到Unity项目的Package文件夹中。
+将下载的包文件夹移动到您Unity项目的根目录下。
 
 通常，你可以在控制台（或终端）应用程序中输入下面的代码来完成这个操作：
 
    ```none
-    cd <YourPackagePath>
+    cd <YourProjectPath>
     git clone https://github.com/Unity-Technologies/com.unity.uiwidgets.git com.unity.uiwidgets
    ```
-在unity的PackageManager中，选择添加添加local file。选中```/com.unity.uiwidgets```下的```package.json```。
+
+此外，因为UIWidgets 2.0中为各个平台编译的C++动态库文件较大，我们使用了github提供的**Git Large File Storage**来管理它们以
+优化下载体验。为此，请您确保在下载UIWidgets前安装好该[服务](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)以便正确下载动态库文件。
+
+最后，在unity的PackageManager中，选择添加添加local file。选中```/com.unity.uiwidgets```下的```package.json```。
 
 #### 运行环境
 
-UIWidgets目前暂时只支持MacOS（Metal），iOS（Metal），Android（Armv7，OpenGLes）以及 Windows（Direct3D11）。我们后续会针对更广泛的运行环境进行适配，敬请期待。
+**UIWidgets 2.0**目前暂时只支持MacOS（**Intel64**，Metal/OpenGLCore），iOS（Metal/OpenGLes），Android（**OpenGLes**）以及 Windows（Direct3D11）。我们后续会针对更广泛的运行环境进行适配，敬请期待。与之相对的，UIWidgets 1.0目前支持所有Unity导出目标平台。
 
-## 入门指南
+## 入门指南（演示[视频](https://www.bilibili.com/video/BV1zR4y1s7HN/)）
 
 #### 一、 概观
 在本教程中，我们将创建一个非常简单的UIWidgets应用。 该应用只包含文本标签和按钮。 文本标签将计算按钮上的点击次数。
@@ -202,7 +210,12 @@ UIWidgets也支持Gif！
 #### 七、图片导入设置
 请将图片放入StreamingAssets下，而后用```Image.file```读取
 
-#### 八、移动设备优化
+#### 八、外接纹理显示
+利用我们新增的Unity内置API``UIWidgetsExternalTextureHelper.createCompatibleExternalTexture``以及UIWidgets中的``Texture``组件，开发者可以生成一个兼容UIWidgets底层的Unity纹理并将它绑定并渲染到UIWidgets页面上。从而可以将3D模型、视频等添加到App中作为一个UI组件。
+
+需要注意，本功能目前只支持**OpenGLCore** (Mac), **OpenGLes** (iOS&Android) 以及 **D3D11** (Windows)，且必须使用**Unity 2020.3.37f1c1**及以上版本。在我们的示例项目中有一个简单的例子 (例如``3DTest1.unity``)可供参考。
+
+#### 九、移动设备优化
 目前在默认情况下，为了保证流畅度，项目在各个平台上均会以最高的刷新频率运行。不过您可以通过在代码中设置```UIWidgetsGlobalConfiguration.EnableAutoAdjustFramerate = true```的方式来开启自动降帧的功能：该功能开启后，在UI内容不变的情况下我们将降低项目的刷新率来降低耗电。
 
 在移动设备上UI绘制的流畅度受到GC影响较大。如有卡顿，例如滑动掉帧。可开启OnDemandGC, UIWidgets将接管并优化整体GC效果，请在代码中设置```UIWidgetsGlobalConfiguration.EnableIncrementalGC = true```,并开启```Project Setting -> Player -> Other Settings -> Use incremental GC```。
@@ -245,16 +258,34 @@ using(Isolate.getScope(the isolate of your App)) {
 
 #### 常问问题解答
 
-| 问题     | 回答  |
-| :-----------------------------------------------| ---------------------: |
-| 我可以使用UIWidgets创建独立应用吗？     | 可以  |
-| 我可以使用UIWidgets构建游戏UI吗？   | 可以    |
-| 我可以使用UIWidgets开发Unity编辑器插件吗？ | 可以 |
-| UIWidgets是UGUI / NGUI的扩展吗？ | 不是 |
-| UIWidgets只是Flutter的副本吗？ | 不是 |
-| 我可以通过简单的拖放操作来创建带有UIWidgets的UI吗？ | 不可以 |
-| 我是否需要付费使用UIWidgets？ | 不需要 |
-| 有推荐的适用于UIWidgets的IDE吗？ | Rider, VSCode(Open .sln) |
+1. 在打开一个UIWidgets 2.0项目后Unity编辑器崩溃了。
+
+      请确定您使用的Unity编辑器版本兼容您使用的UIWidgets版本。例如，**UIWidgets 2.0.3**只支持以下中国版Unity版本：2019.4.26f1c1 ～ 2019.4.29f1c1。您可以在[这里](#unity)查找兼容您UIWidgets版本的Unity版本信息。
+
+2. 在打开一个UIWidgets 2.0项目后Unity控制台报错，报错信息为**DllNotFoundException: libUIWidgets**。
+
+      请首先检查您的UIWidgets根目录下/Runtime/Plugins中适配各个平台的C++库文件是否完整。例如，Windows平台下的libUIWidgets.dll位于*X86_64*子目录下，Mac平台下的libUIWidgets.dylib位于*osx*目录下。
+
+      如果您发现库文件不存在或者文件大小不正常（<1MB)，请确认您已经在您电脑上安装了**Git Large File Storage**，然后在UIWidgets根目录下执行如下指令：
+      ```
+      git lfs pull
+      ```
+
+3. UIWidgets 2.0和UIWidgets 1.0的区别大吗？哪个更适合我的项目？
+
+      在UIWidgets 1.0中所有渲染相关代码都由C#编写并且使用了Unity [Graphics API](https://docs.unity3d.com/ScriptReference/Graphics.html)
+      进行渲染。因此它可以正确运行在任意Unity支持的平台。不过与此同时，它的运行效率较低，且渲染效果与flutter在某一些细节上并不一致。
+
+      在UIWidgets 2.0中我们将一个flutter引擎嵌入到了C++动态库中，然后Unity通过调用这个动态库来进行渲染。因此，它的渲染结果与flutter完全一致，且性能比C#实现的渲染代码有明显提升。不过为了使flutter引擎和Unity可以正确协作，我们对flutter和Unity引擎都进行了一些修改。因此，目前UIWidgets 2.0只能够运行在包含上述修改的中国版Unity中，并且暂时只支持部分Unity的目标平台。
+
+      由于UIWidgets 2.0在效果和效率上的优势，因此推荐大家使用。仅当您需要在UIWidgets 2.0暂时不支持的平台（如webgl）上开发时才推荐使用UIWidgets 1.0。此外，由于人力原因，目前只有UIWidgets 2.0我们会持续更新。
+
+4. 使用Unity 2020.3LTS打包UIWidgets 2.0的项目到iOS平台后Build失败，提示无法链接到OpenGLES库函数。
+
+      这是因为在Unity 2020.3版本中Unity导出的iOS项目默认不再包含对OpenGLES库的依赖，但UIWidgets 2.0需要依赖该库。为了解决这个问题，您需要手动用Xcode打开项目并为UnityFramework添加上对OpenGLES库的依赖。
+      
+## 联系我们
+官方QQ群: UIWidgets (群ID: 234207153)
 
 ## 如何贡献
 请查看[CONTRIBUTING.md](CONTRIBUTING.md)

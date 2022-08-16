@@ -167,7 +167,7 @@ namespace Unity.UIWidgets.widgets {
                 int index = _keyToIndex.getOrDefault(_defaultNullKey);
                 while (index < children.Count) {
                     Widget child = children[index];
-                    if (child.key != _defaultNullKey) {
+                    if (child.key != null && child.key != _defaultNullKey) {
                         _keyToIndex[child.key] = index;
                     }
                     if (child.key == key) {
@@ -376,7 +376,6 @@ namespace Unity.UIWidgets.widgets {
             bool ignoring = true,
             Widget sliver = null
         ) : base(key: key, child: sliver) {
-            D.assert(ignoring != null);
             this.ignoring = ignoring;
 
         }
@@ -402,7 +401,6 @@ namespace Unity.UIWidgets.widgets {
         Key key = null,
         bool offstage = true,
         Widget sliver = null) : base(key: key, child: sliver) {
-            D.assert(offstage != null);
             this.offstage = offstage;
         }
 
@@ -446,7 +444,7 @@ namespace Unity.UIWidgets.widgets {
             Key key = null,
             float opacity = 0f,
             Widget sliver = null) : base(key: key, child: sliver) { 
-            D.assert(opacity != null && opacity >= 0.0 && opacity <= 1.0);
+            D.assert(opacity >= 0.0 && opacity <= 1.0);
             this.opacity = opacity;
         }
 
@@ -470,8 +468,8 @@ namespace Unity.UIWidgets.widgets {
     public class _SliverOffstageElement : SingleChildRenderObjectElement {
         public _SliverOffstageElement(SliverOffstage widget) : base(widget) {
         }
-
-        public SliverOffstage widget {
+        
+        public new SliverOffstage widget {
             get { return base.widget as SliverOffstage; }
         }
 
